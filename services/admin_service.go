@@ -1,9 +1,8 @@
 package services
 
 import (
-	"database/sql"
-
 	"n1h41/marketplace/models"
+	"n1h41/marketplace/repositories"
 )
 
 type AdminService interface {
@@ -11,20 +10,16 @@ type AdminService interface {
 }
 
 type adminService struct {
-	db *sql.DB
+	repo repositories.AdminRepository
 }
 
-func Constructor(db *sql.DB) AdminService {
+func Constructor(repo repositories.AdminRepository) AdminService {
 	return &adminService{
-		db: db,
+		repo: repo,
 	}
 }
 
 func (s *adminService) Login(data models.AdminLoginModel) (err error) {
-	rows, err := s.db.Query("SELECT * FROM admin WHERE email = ? AND password = ?", data.Email, data.Password)
-	if err != nil {
-		return
-	}
-	defer rows.Close()
+	// TODO:
 	return nil
 }
