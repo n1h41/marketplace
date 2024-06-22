@@ -10,4 +10,6 @@ func Setup(app *fiber.App) {
 
 	adminGroup := app.Group("/admin")
 	adminGroup.Get("/", GetAdminView)
+	adminGroup.Get("/signin", GetAdminSignInView)
+	adminGroup.Post("/signin", HandleSignIn)
 }

@@ -1,0 +1,11 @@
+package adminviews
+
+import "n1h41/marketplace/views"
+import "n1h41/marketplace/views/partials"
+import "n1h41/marketplace/models"
+
+templ AdminSignInView() {
+	@views.Base(false) {
+		@partials.SignIn(models.AdminLoginModel{}, nil)
+	}
+}
