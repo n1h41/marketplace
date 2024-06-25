@@ -27,7 +27,7 @@ func GetAdminSignInView(c *fiber.Ctx) error {
 	return handler(c)
 }
 
-func HandleSignIn(c *fiber.Ctx) error {
+func HandleAdminLogin(c *fiber.Ctx) error {
 	var errors map[string]string
 	errors = make(map[string]string)
 	var params models.AdminLoginModel

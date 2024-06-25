@@ -20,6 +20,6 @@ func Constructor(repo repositories.AdminRepository) AdminService {
 }
 
 func (s *adminService) Login(data models.AdminLoginModel) (err error) {
-	// TODO:
-	return nil
+	err = s.repo.Login(data)
+	return
 }
