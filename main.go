@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 
-	"n1h41/marketplace/handlers"
 	"n1h41/marketplace/platform/database"
 )
 
@@ -20,9 +19,9 @@ func main() {
 
 	app.Static("/static", "./public/")
 
-	handlers.Setup(app)
-
 	database.ConnectToDatabase()
+
+	Setup(app)
 
 	log.Fatal(app.Listen(":3000"))
 }

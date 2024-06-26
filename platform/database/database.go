@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	db  *sql.DB
-	err error
+	Db  *sql.DB
+	Err error
 )
 
 func ConnectToDatabase() {
@@ -21,9 +21,9 @@ func ConnectToDatabase() {
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_SSLMODE"),
 	)
-	db, err = sql.Open("postgres", connectionStr)
-	if err != nil {
-		log.Fatalln(err)
+	Db, Err = sql.Open("postgres", connectionStr)
+	if Err != nil {
+		log.Fatalln(Err)
 	}
 	fmt.Println("Connected to database 🔥")
 }
