@@ -15,15 +15,18 @@ type adminRepository struct {
 	db *sql.DB
 }
 
-func Constructor(db *sql.DB) AdminRepository {
+func AdminRepoConstructor(db *sql.DB) AdminRepository {
 	return &adminRepository{
 		db: db,
 	}
 }
 
 func (r adminRepository) Login(params models.AdminLoginModel) (err error) {
-	// TODO:
-	row := r.db.QueryRow("select * from users where email = ? and password = ?", params.Email, params.Password)
+	row := r.db.QueryRow("SELECT * FROM users WHERE email = $1 AND password = $2", params.Email, params.Password)
+	if row.Err() != nil {
+		err = row.Err()
+		return
+	}
 	if row.Scan() == sql.ErrNoRows {
 		err = errors.New("User not found")
 		return

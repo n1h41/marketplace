@@ -13,7 +13,7 @@ type adminService struct {
 	repo repositories.AdminRepository
 }
 
-func Constructor(repo repositories.AdminRepository) AdminService {
+func AdminServiceConstructor(repo repositories.AdminRepository) AdminService {
 	return &adminService{
 		repo: repo,
 	}
