@@ -15,7 +15,8 @@ var (
 )
 
 func ConnectToDatabase() {
-	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s",
+	connectionStr := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
+		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
