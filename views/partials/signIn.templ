@@ -56,7 +56,7 @@ templ SignIn(data models.AdminLoginModel, errors map[string]string) {
 						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam,
 						quibusdam aperiam voluptatum.
 					</p>
-					<form hx-post="/admin/signin" hx-target="#signin-section" hx-swap="outerHtml" action="/admin/signin" class="mt-8 grid grid-cols-6 gap-6">
+					<form hx-post="/admin/signin" hx-replace-url="true" hx-target="#signin-section" hx-swap="outerHtml" action="/admin/signin" class="mt-8 grid grid-cols-6 gap-6">
 						<div class="col-span-6">
 							<label for="Email" class="block text-sm font-medium text-gray-700">Email </label>
 							<input
