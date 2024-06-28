@@ -17,6 +17,8 @@ import (
 type AdminController interface {
 	GetAdminView(c *fiber.Ctx) error
 	GetAdminSignInView(c *fiber.Ctx) error
+	GetAddProductForm(c *fiber.Ctx) error
+	GetProductSection(c *fiber.Ctx) error
 	HandleAdminLogin(c *fiber.Ctx) error
 }
 
@@ -78,4 +80,16 @@ func (controller adminController) HandleAdminLogin(c *fiber.Ctx) error {
 	}
 
 	return c.Redirect("/admin")
+}
+
+func (controller adminController) GetAddProductForm(c *fiber.Ctx) error {
+	addProductForm := partials.AddProductForm()
+	handler := adaptor.HTTPHandler(templ.Handler(addProductForm))
+	return handler(c)
+}
+
+func (controller adminController) GetProductSection(c *fiber.Ctx) error {
+	productSection := partials.AdminProductSection()
+	handler := adaptor.HTTPHandler(templ.Handler(productSection))
+	return handler(c)
 }
