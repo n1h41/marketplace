@@ -1,10 +1,10 @@
 package partials
 
 templ AddProductForm() {
-	<div class="flex flex-col lg:flex-row w-full p-10">
-		<div class="flex-col lg:mr-8 flex flex-1">
+	<div class="flex flex-col md:flex-row w-full p-10">
+		<div class="flex-col md:mr-8 flex flex-1">
 			<div class="mb-5">
-				<label for="UserEmail" class="block text-xs font-medium text-gray-700">Product Name </label>
+				<label for="ProductName" class="block text-xs font-medium text-gray-700">Product Name </label>
 				<input
 					type="text"
 					id="ProductName"
@@ -12,30 +12,32 @@ templ AddProductForm() {
 					class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
 				/>
 			</div>
-			<div class="mb-5">
-				<label for="ProductName" class="block text-xs font-medium text-gray-700">Price </label>
-				<input
-					type="number"
-					id="ProductName"
-					placeholder="Price"
-					class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-				/>
-			</div>
-			<div class="mb-5">
-				<label for="StockQuantity" class="block text-xs font-medium text-gray-700">Stock Quantity </label>
-				<div class="flex items-center rounded border border-gray-200">
-					<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-						&minus;
-					</button>
+			<div class="flex space-x-2 w-full">
+				<div class="mb-5 w-full">
+					<label for="ProductPrice" class="block text-xs font-medium text-gray-700">Price </label>
 					<input
 						type="number"
-						id="StockQuantity"
-						value="1"
-						class="h-10 w-full border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+						id="ProductPrice"
+						placeholder="Price"
+						class="h-10 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
 					/>
-					<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-						&plus;
-					</button>
+				</div>
+				<div class="mb-5">
+					<label for="StockQuantity" class="block text-xs font-medium text-gray-700">Stock Quantity </label>
+					<div class="flex items-center rounded border border-gray-200">
+						<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+							&minus;
+						</button>
+						<input
+							type="number"
+							id="StockQuantity"
+							value="0"
+							class="h-10 w-full border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+						/>
+						<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+							&plus;
+						</button>
+					</div>
 				</div>
 			</div>
 			<div class="mb-5">
