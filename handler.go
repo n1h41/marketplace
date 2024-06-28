@@ -22,4 +22,6 @@ func Setup(app *fiber.App) {
 	adminGroup.Get("/", controller.GetAdminView)
 	adminGroup.Get("/signin", controller.GetAdminSignInView)
 	adminGroup.Post("/signin", controller.HandleAdminLogin)
+	adminGroup.Get("/products", controller.GetProductSection)
+	adminGroup.Get("/products/add", controller.GetAddProductForm)
 }
