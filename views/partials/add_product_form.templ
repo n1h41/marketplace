@@ -1,7 +1,7 @@
 package partials
 
 templ AddProductForm() {
-	<div class="flex flex-col md:flex-row w-full p-10">
+	<div class="flex flex-col md:flex-row w-full mt-4">
 		<div class="flex-col md:mr-8 flex flex-1">
 			<div class="mb-5">
 				<label for="ProductName" class="block text-xs font-medium text-gray-700">Product Name </label>
@@ -24,17 +24,21 @@ templ AddProductForm() {
 				</div>
 				<div class="mb-5">
 					<label for="StockQuantity" class="block text-xs font-medium text-gray-700">Stock Quantity </label>
-					<div class="flex items-center rounded border border-gray-200">
-						<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+					<div
+						x-data="{ stockQuantity: 0 }"
+						class="flex items-center rounded border border-gray-200"
+					>
+						<button x-on:click="stockQuantity--" type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
 							&minus;
 						</button>
 						<input
+							x-model="stockQuantity"
 							type="number"
 							id="StockQuantity"
 							value="0"
 							class="h-10 w-full border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
 						/>
-						<button type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+						<button x-on:click="stockQuantity++" type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
 							&plus;
 						</button>
 					</div>
@@ -52,19 +56,37 @@ templ AddProductForm() {
 		</div>
 		<div class="flex flex-col flex-1">
 			<div class="flex flex-col">
-				<div class="flex-col p-10 border-gray-200 rounded-md border bg-gray-100 flex items-center justify-center">
-					<div class="w-20 h-20">
-						<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
-							<g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 3)">
-								<path d="m8.5 14.5h2c1.1045695 0 2-.8954305 2-2v-8l-4-4h-6c-1.1045695 0-2 .8954305-2 2v10c0 1.1045695.8954305 2 2 2h2"></path>
-								<path d="m3.5 7.5 3-3 3 3"></path>
-								<path d="m6.5 4.5v11"></path>
-							</g>
-						</svg>
+				<p class="text-gray-700 text-xs">Upload product image</p>
+				<label for="files" x-data="{ productImages: [] }">
+					<div class="cursor-pointer hover:shadow-sm flex-col mt-1 p-10 border-gray-200 rounded-md border bg-gray-100 flex items-center justify-center">
+						<div class="w-20 h-30">
+							<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+								<g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 3)">
+									<path d="m8.5 14.5h2c1.1045695 0 2-.8954305 2-2v-8l-4-4h-6c-1.1045695 0-2 .8954305-2 2v10c0 1.1045695.8954305 2 2 2h2"></path>
+									<path d="m3.5 7.5 3-3 3 3"></path>
+									<path d="m6.5 4.5v11"></path>
+								</g>
+							</svg>
+						</div>
+						<span class="text-gray-700">Select product image</span>
+						<input
+							x-on:change="productImages.push(Object.values($event.target.files))"
+							x-on:change="Object.values($event.target.files).forEach(file => productImages.push(file))"
+							multiple="true"
+							id="files"
+							type="file"
+							class="hidden text-center w-full text-sm text-slate-500
+      file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-violet-50 file:text-violet-700
+      hover:file:bg-violet-100"
+						/>
+						<span x-text="productImages.length != 0  ? productImages.map(file => file.name).join(',') : 'No images selected'"></span>
 					</div>
-					<p class="text-gray-700">Upload product image</p>
-				</div>
+				</label>
 			</div>
 		</div>
 	</div>
+	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500"><a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a> >  Add Product</span>
 }
