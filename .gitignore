@@ -1,3 +1,6 @@
 node_modules
 marketplace
 .env
+
+views/**/*_templ.txt
+neovide_backtraces.log
