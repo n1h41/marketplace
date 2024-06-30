@@ -1,12 +1,14 @@
 package partials
 
 templ AdminProductSection() {
-	<section id="product-section" class="w-full ">
+	<section id="product-section" class="w-full">
 		<div class="w-full px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
+			<span hx-swap="outerHTML" id="path-text" class="py-4 text-sm text-gray-500">Product Section</span>
 			<div class="grid grid-cols-1 gap-y-8">
-				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 lg:gap-4 overflow-y-auto">
+				<div id="product-section-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 overflow-y-auto p-2">
 					<a
-						hx-target="#product-section"
+						hx-target="#product-section-grid"
+            hx-swap="outerHTML"
 						hx-get="/admin/products/add"
 						class="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
 						href="#"
