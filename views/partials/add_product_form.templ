@@ -55,9 +55,9 @@ templ AddProductForm() {
 			</div>
 		</div>
 		<div class="flex flex-col flex-1">
-			<div class="flex flex-col">
-				<p class="text-gray-700 text-xs">Upload product image</p>
-				<label for="files" x-data="{ productImages: [] }">
+			<div class="flex flex-col" x-data="{ productImages: [] }">
+				<p class="text-gray-700 text-xs">Upload product images</p>
+				<label for="files">
 					<div class="cursor-pointer hover:shadow-sm flex-col mt-1 p-10 border-gray-200 rounded-md border bg-gray-100 flex items-center justify-center">
 						<div class="w-20 h-30">
 							<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +70,7 @@ templ AddProductForm() {
 						</div>
 						<span class="text-gray-700">Select product image</span>
 						<input
-							x-on:change="productImages.push(Object.values($event.target.files))"
+							accept="image/*"
 							x-on:change="Object.values($event.target.files).forEach(file => productImages.push(file))"
 							multiple="true"
 							id="files"
@@ -82,11 +82,28 @@ templ AddProductForm() {
       file:bg-violet-50 file:text-violet-700
       hover:file:bg-violet-100"
 						/>
-						<span x-text="productImages.length != 0  ? productImages.map(file => file.name).join(',') : 'No images selected'"></span>
+						<span x-text="productImages.length != 0  ? productImages.map(file => file.name).join(', ') : 'No images selected'"></span>
 					</div>
 				</label>
+				<div x-show="productImages.length != 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+					<template x-for="image in productImages">
+						<div class="border-blue-300 border rounded">
+							<img class="object-cover w-full h-20 " :src="getFileUrl(image)" alt=""/>
+						</div>
+					</template>
+				</div>
+				<div x-on:click="productImages = []" x-show="productImages.length != 0" class="cursor-pointer bg-gray-400 rounded-md p-1 mt-2 flex justify-center items-center">
+					<p class="text-white font-bold">CLEAR</p>
+				</div>
 			</div>
 		</div>
 	</div>
-	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500"><a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a> >  Add Product</span>
+	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
+		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a>
+		>
+		Add Product
+	</span>
+	<script>
+    const getFileUrl = (file) => URL.createObjectURL(file);
+  </script>
 }
