@@ -1,11 +1,13 @@
 package adminviews
 
-import "n1h41/marketplace/views"
-import "n1h41/marketplace/views/partials"
-import "n1h41/marketplace/models"
+import (
+	"n1h41/marketplace/dto"
+	"n1h41/marketplace/views"
+	"n1h41/marketplace/views/partials"
+)
 
 templ AdminSignInView() {
 	@views.Base(false) {
-		@partials.SignIn(models.AdminLoginModel{}, nil)
+		@partials.SignIn(dto.AdminLoginModel{}, nil)
 	}
 }

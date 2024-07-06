@@ -1,12 +1,12 @@
 package services
 
 import (
-	"n1h41/marketplace/models"
+	"n1h41/marketplace/dto"
 	"n1h41/marketplace/repositories"
 )
 
 type AdminService interface {
-	Login(models.AdminLoginModel) error
+	Login(dto.AdminLoginModel) error
 }
 
 type adminService struct {
@@ -19,7 +19,7 @@ func AdminServiceConstructor(repo repositories.AdminRepository) AdminService {
 	}
 }
 
-func (s *adminService) Login(data models.AdminLoginModel) (err error) {
+func (s *adminService) Login(data dto.AdminLoginModel) (err error) {
 	err = s.repo.Login(data)
 	return
 }

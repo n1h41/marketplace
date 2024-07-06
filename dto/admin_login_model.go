@@ -1,4 +1,4 @@
-package models
+package dto
 
 type AdminLoginModel struct {
 	Email    string `json:"email"`

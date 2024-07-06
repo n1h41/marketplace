@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 
-	"n1h41/marketplace/models"
+	"n1h41/marketplace/dto"
 	"n1h41/marketplace/services"
 	"n1h41/marketplace/utils"
 	adminviews "n1h41/marketplace/views/admin_views"
@@ -51,7 +51,7 @@ func (controller adminController) GetAdminSignInView(c *fiber.Ctx) error {
 func (controller adminController) HandleAdminLogin(c *fiber.Ctx) error {
 	var errors map[string]string
 	errors = make(map[string]string)
-	var params models.AdminLoginModel
+	var params dto.AdminLoginModel
 	if err := c.BodyParser(&params); err != nil {
 		return err
 	}
