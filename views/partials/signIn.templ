@@ -1,8 +1,8 @@
 package partials
 
-import "n1h41/marketplace/models"
+import "n1h41/marketplace/dto"
 
-templ SignIn(data models.AdminLoginModel, errors map[string]string) {
+templ SignIn(data dto.AdminLoginModel, errors map[string]string) {
 	<section id="signin-section" class="bg-white">
 		<div class="lg:grid lg:min-h-screen lg:grid-cols-12">
 			<section class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">

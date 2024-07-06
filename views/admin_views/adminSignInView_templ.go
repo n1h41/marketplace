@@ -10,9 +10,11 @@ import "context"
 import "io"
 import "bytes"
 
-import "n1h41/marketplace/views"
-import "n1h41/marketplace/views/partials"
-import "n1h41/marketplace/models"
+import (
+	"n1h41/marketplace/dto"
+	"n1h41/marketplace/views"
+	"n1h41/marketplace/views/partials"
+)
 
 func AdminSignInView() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -33,7 +35,7 @@ func AdminSignInView() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = partials.SignIn(models.AdminLoginModel{}, nil).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = partials.SignIn(dto.AdminLoginModel{}, nil).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

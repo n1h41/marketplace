@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"errors"
 
-	"n1h41/marketplace/models"
+	"n1h41/marketplace/dto"
 )
 
 type AdminRepository interface {
-	Login(models.AdminLoginModel) error
+	Login(dto.AdminLoginModel) error
 }
 
 type adminRepository struct {
@@ -21,7 +21,7 @@ func AdminRepoConstructor(db *sql.DB) AdminRepository {
 	}
 }
 
-func (r adminRepository) Login(params models.AdminLoginModel) (err error) {
+func (r adminRepository) Login(params dto.AdminLoginModel) (err error) {
 	row := r.db.QueryRow("SELECT * FROM users WHERE email = $1 AND password = $2", params.Email, params.Password)
 	if row.Err() != nil {
 		err = row.Err()
