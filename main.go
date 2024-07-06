@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/joho/godotenv"
 
 	"n1h41/marketplace/platform/database"
@@ -16,6 +17,8 @@ func main() {
 	}
 
 	app := fiber.New()
+
+	app.Use(favicon.New())
 
 	app.Static("/static", "./public/")
 
