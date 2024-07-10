@@ -2,19 +2,23 @@ package partials
 
 templ AddProductForm() {
 	<form
-		action=""
+		id="add-product-form"
+		class="flex flex-col"
+		hx-post="/admin/products/add"
+		action="/admin/products/add"
 		x-data="{
       productName: undefined,
       productPrice: undefined,
-      productStockQuantity: undefined,
+      productStockQuantity: 1,
     }"
 	>
-		<div class="flex flex-col md:flex-row w-full mt-4">
+		<div class="overflow-y-auto flex flex-col md:flex-row w-full mt-4">
 			<div class="flex-col md:mr-8 flex flex-1">
 				<div class="mb-5">
 					<label for="ProductName" class="block text-xs font-medium text-gray-700">Product Name </label>
 					<input
 						x-model.lazy="productName"
+						name="productName"
 						type="text"
 						id="ProductName"
 						placeholder="Product Name"
@@ -22,34 +26,50 @@ templ AddProductForm() {
 					/>
 					<span x-show="productName && productName.length < 3" class="text-red-500">Enter a valid product name</span>
 				</div>
-				<div class="flex space-x-2 w-full">
-					<div class="mb-5 w-full">
+				<div class="flex flex-col sm:flex-row sm:space-x-2 w-full">
+					<div class="mb-5 sm:w-1/2">
 						<label for="ProductPrice" class="block text-xs font-medium text-gray-700">Price </label>
 						<input
 							x-model.number="productPrice"
+							name="procutPrice"
 							type="number"
 							id="ProductPrice"
 							placeholder="Price"
 							class="h-10 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
 						/>
 					</div>
-					<div class="mb-5">
+					<div class="m-0 mb-5 sm:w-1/2">
 						<label for="StockQuantity" class="block text-xs font-medium text-gray-700">Stock Quantity </label>
 						<div
-							x-data="{ stockQuantity: 0 }"
-							class="flex items-center rounded border border-gray-200"
+							class="flex items-center rounded-md shadow-sm border border-gray-200"
 						>
-							<button x-on:click="productStockQuantity--" type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+							<button
+								x-on:click="
+              if (productStockQuantity == 0) {
+                return;
+              }
+              productStockQuantity--
+              "
+								type="button"
+								class="px-3 lg:px-2 size-10 leading-10 text-gray-600 transition hover:opacity-75"
+							>
 								&minus;
 							</button>
 							<input
 								x-model.number="productStockQuantity"
+								name="productStockQuantity"
 								type="number"
 								id="StockQuantity"
 								value="0"
 								class="h-10 w-full border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
 							/>
-							<button x-on:click="productStockQuantity++" type="button" class="size-10 leading-10 text-gray-600 transition hover:opacity-75">
+							<button
+								x-on:click="
+              productStockQuantity++
+              "
+								type="button"
+								class="px-3 lg:px-2 size-10 leading-10 text-gray-600 transition hover:opacity-75"
+							>
 								&plus;
 							</button>
 						</div>
@@ -113,6 +133,7 @@ templ AddProductForm() {
 							</div>
 							<span class="text-gray-700">Select product image</span>
 							<input
+								x-model="productImages"
 								accept="image/*"
 								x-on:change="Object.values($event.target.files).forEach(file => productImages.push(file))"
 								multiple="true"
@@ -130,7 +151,7 @@ templ AddProductForm() {
 					<div x-show="productImages.length != 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-2">
 						<template x-for="image in productImages">
 							<div class="border-blue-300 border rounded">
-								<img class="object-cover w-full h-20 " :src="getFileUrl(image)" alt=""/>
+								<img class="object-cover w-full h-20 " :src="URL.createObjectURL(image)" alt=""/>
 							</div>
 						</template>
 					</div>
@@ -140,13 +161,18 @@ templ AddProductForm() {
 				</div>
 			</div>
 		</div>
+		<div class="mt-4 self-end">
+			<button
+				class="inline-block w-full rounded-lg bg-green-500 px-5 py-3 font-medium text-white sm:w-auto"
+				form="add-product-form"
+			>
+				Submit
+			</button>
+		</div>
 	</form>
 	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
 		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a>
 		>
 		Add Product
 	</span>
-	<script>
-    var getFileUrl = (file) => URL.createObjectURL(file);
-  </script>
 }
