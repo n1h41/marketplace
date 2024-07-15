@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"log"
 
 	"github.com/a-h/templ"
@@ -96,5 +97,21 @@ func (c adminController) GetProductSection(ctx *fiber.Ctx) error {
 }
 
 func (c adminController) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
+	var params dto.AddProductModel
+	if err := ctx.BodyParser(&params); err != nil {
+		return err
+	}
+	form, err := ctx.MultipartForm()
+	if err != nil {
+		return err
+	}
+	productImageFiles := form.File["productImageFiles"]
+	if len(productImageFiles) == 0 {
+		return errors.New("No product images uploaded")
+	}
+	// INFO: This is the part where we are setting the productImageFiles to the params
+	for _, file := range productImageFiles {
+		params.ProductImageFiles = append(params.ProductImageFiles, file)
+	}
 	return nil
 }
