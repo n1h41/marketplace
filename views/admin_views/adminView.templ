@@ -8,7 +8,7 @@ import (
 templ AdminView() {
 	@views.Base(false) {
 		<div class="flex">
-			<div class="flex h-screen w-16 flex-col justify-between border-e bg-white">
+			<div class="flex h-screen w-16 flex-col justify-between border-e bg-white fixed">
 				<div>
 					<div class="inline-flex size-16 items-center justify-center">
 						<span class="grid size-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
@@ -111,12 +111,7 @@ templ AdminView() {
 					</a>
 				</div>
 			</div>
-			<!--
-  Heads up! 👋
-
-  This component comes with some `rtl` classes. Please remove them if they are not needed in your project.
--->
-			<div id="main-section" class="w-full">
+			<div id="main-section" class="pl-16 flex flex-col overflow-y-auto flex-grow">
 				@partials.AdminProductSection()
 			</div>
 		</div>

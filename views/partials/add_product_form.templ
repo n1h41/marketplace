@@ -2,7 +2,11 @@ package partials
 
 templ AddProductForm() {
 	<form
-		action=""
+		id="add-product-form"
+		class="flex flex-col"
+		hx-post="/admin/products/add"
+		action="/admin/products/add"
+		hx-encoding="multipart/form-data"
 		x-data="{
       productName: undefined,
       productPrice: undefined,
@@ -15,6 +19,7 @@ templ AddProductForm() {
 					<label for="ProductName" class="block text-xs font-medium text-gray-700">Product Name </label>
 					<input
 						x-model.lazy="productName"
+						name="productName"
 						type="text"
 						id="ProductName"
 						placeholder="Product Name"
@@ -27,6 +32,7 @@ templ AddProductForm() {
 						<label for="ProductPrice" class="block text-xs font-medium text-gray-700">Price </label>
 						<input
 							x-model.number="productPrice"
+							name="procutPrice"
 							type="number"
 							id="ProductPrice"
 							placeholder="Price"
@@ -52,6 +58,7 @@ templ AddProductForm() {
 							</button>
 							<input
 								x-model.number="productStockQuantity"
+								name="productQuantity"
 								type="number"
 								id="StockQuantity"
 								value="0"
@@ -114,7 +121,7 @@ templ AddProductForm() {
 			<div class="flex flex-col flex-1">
 				<div class="flex flex-col" x-data="{ productImages: [] }">
 					<p class="text-gray-700 text-xs">Upload product images</p>
-					<label for="files">
+					<label for="file-input">
 						<div class="cursor-pointer hover:shadow-sm flex-col mt-1 p-10 border-gray-200 rounded-md border bg-gray-100 flex items-center justify-center">
 							<div class="w-20 h-30">
 								<svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
@@ -128,9 +135,9 @@ templ AddProductForm() {
 							<span class="text-gray-700">Select product image</span>
 							<input
 								accept="image/*"
-								x-on:change="Object.values($event.target.files).forEach(file => productImages.push(file))"
 								multiple="true"
-								id="files"
+								id="file-input"
+								name="productImageFiles"
 								type="file"
 								class="hidden text-center w-full text-sm text-slate-500
       file:py-2 file:px-4
@@ -138,13 +145,22 @@ templ AddProductForm() {
       file:text-sm file:font-semibold
       file:bg-violet-50 file:text-violet-700
       hover:file:bg-violet-100"
+								x-on:change="
+                  const files = $event.target.files;
+                  for (let i = 0; i < files.length; i++) {
+                    productImages.push(files[i]);
+                  }
+                "
 							/>
 						</div>
 					</label>
-					<div x-show="productImages.length != 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+					<div
+						x-show="productImages.length != 0"
+						class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-2"
+					>
 						<template x-for="image in productImages">
 							<div class="border-blue-300 border rounded">
-								<img class="object-cover w-full h-20 " :src="getFileUrl(image)" alt=""/>
+								<img class="object-cover w-full h-20 " :src="URL.createObjectURL(image)" alt=""/>
 							</div>
 						</template>
 					</div>
@@ -154,13 +170,18 @@ templ AddProductForm() {
 				</div>
 			</div>
 		</div>
+		<div class="mt-4 self-end">
+			<button
+				class="inline-block w-full rounded-lg bg-green-500 px-5 py-3 font-medium text-white sm:w-auto"
+				form="add-product-form"
+			>
+				Submit
+			</button>
+		</div>
 	</form>
 	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
 		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a>
 		>
 		Add Product
 	</span>
-	<script>
-    var getFileUrl = (file) => URL.createObjectURL(file);
-  </script>
 }
