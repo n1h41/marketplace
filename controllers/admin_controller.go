@@ -109,6 +109,7 @@ func (c adminController) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
 	if len(productImageFiles) == 0 {
 		return errors.New("No product images uploaded")
 	}
+
 	// INFO: This is the part where we are setting the productImageFiles to the params
 	for _, file := range productImageFiles {
 		params.ProductImageFiles = append(params.ProductImageFiles, file)

@@ -9,16 +9,16 @@ import (
 
 type AdminRepository interface {
 	Login(dto.AdminLoginModel) error
+	CreateProduct(dto.AddProductModel) error
 }
 
 type adminRepository struct {
 	db *sql.DB
 }
 
-func AdminRepoConstructor(db *sql.DB) AdminRepository {
-	return &adminRepository{
-		db: db,
-	}
+// CreateProduct implements AdminRepository.
+func (r *adminRepository) CreateProduct(dto.AddProductModel) error {
+	panic("unimplemented")
 }
 
 func (r adminRepository) Login(params dto.AdminLoginModel) (err error) {
@@ -32,4 +32,10 @@ func (r adminRepository) Login(params dto.AdminLoginModel) (err error) {
 		return
 	}
 	return nil
+}
+
+func AdminRepoConstructor(db *sql.DB) AdminRepository {
+	return &adminRepository{
+		db: db,
+	}
 }
