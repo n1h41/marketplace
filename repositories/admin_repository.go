@@ -18,6 +18,7 @@ type adminRepository struct {
 
 // CreateProduct implements AdminRepository.
 func (r *adminRepository) CreateProduct(dto.AddProductModel) error {
+	// query := "select id from categories where name = $1"
 	panic("unimplemented")
 }
 
