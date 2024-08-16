@@ -8,14 +8,18 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 )
 
 const (
-	dbDriver = "postgres"
-	dbSource = "postgres://test:test@localhost:%s/marketplace_test_db?sslmode=disable"
+	dbDriver   = "postgres"
+	dbSource   = "postgres://test:test@localhost:%s/marketplace_test_db?sslmode=disable"
+	migrations = "file://../platform/migrations"
 )
 
 var (
@@ -102,7 +106,21 @@ func setupDockerTestEnvironment() {
 }
 
 func applyDatabaseMigrations() {
-	// panic("unimplemented")
+	driver, err := postgres.WithInstance(testDB, &postgres.Config{})
+	if err != nil {
+		log.Fatalf("Could not create migration driver: %s", err)
+	}
+
+	migration, err := migrate.NewWithDatabaseInstance(migrations, "postgres", driver)
+	if err != nil {
+		log.Fatalf("Failed to initialize migration instance: %s", err)
+	}
+
+	if err := migration.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatalf("Failed to apply migrations: %s", err)
+	}
+
+	log.Println("Database migrations applied successfully")
 }
 
 func tearDownDockerTestEnvironment() {
