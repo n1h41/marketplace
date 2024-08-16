@@ -1,4 +1,4 @@
-package entities
+package entity
 
 type User struct {
 	Email     string `db:"email"`
