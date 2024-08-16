@@ -20,7 +20,7 @@ type adminRepository struct {
 
 func (r *adminRepository) getParentCategoryId(categoryName string) int {
 	var category entity.Category
-	query := "select * from categories where name = $1"
+	query := "select * from category where name = $1"
 	row, _ := r.db.Query(query, categoryName)
 	err := row.Scan(category)
 	if err != nil {

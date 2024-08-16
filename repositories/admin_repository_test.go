@@ -21,7 +21,7 @@ func createUser(t *testing.T) {
 		t.Fatalf("Error: %s", err)
 	}
 
-	t.Log(r)
+	t.Log(r.RowsAffected())
 }
 
 func TestLogin(t *testing.T) {
