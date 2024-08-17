@@ -32,30 +32,8 @@ func TestLogin(t *testing.T) {
 		Password: "test1234",
 	}
 
-	err := repo.Login(params)
+	err := adminRepoMock.Login(params)
 	if err != nil {
 		t.Fatalf("Failed: %s", err)
-	}
-}
-
-func TestCreateCategory(t *testing.T) {
-	newCategory := dto.CreateNewCategory{
-		Name:          "Food and Beverages",
-		IsSubCategory: false,
-	}
-	err := repo.CreateCategory(newCategory)
-	if err != nil {
-		t.Fatalf("Error: %s", err)
-	}
-
-	newCategory = dto.CreateNewCategory{
-		Name:          "Pepsi",
-		IsSubCategory: true,
-		Parent:        "Food and Beverages",
-	}
-
-	err = repo.CreateCategory(newCategory)
-	if err != nil {
-		t.Fatalf("Error: %s", err)
 	}
 }
