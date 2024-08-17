@@ -4,5 +4,6 @@ marketplace
 
 views/**/*_templ.txt
 views/**/*_templ.go
-public/css/*
+public/css/
 neovide_backtraces.log
+views/**/*_templ.go
