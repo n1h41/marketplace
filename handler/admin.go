@@ -11,7 +11,7 @@ import (
 	"n1h41/marketplace/dto"
 	"n1h41/marketplace/services"
 	"n1h41/marketplace/utils"
-	adminviews "n1h41/marketplace/views/admin_views"
+	"n1h41/marketplace/views/admin"
 	"n1h41/marketplace/views/partials"
 )
 
@@ -22,10 +22,18 @@ type AdminHandler interface {
 	GetProductSection(ctx *fiber.Ctx) error
 	HandleAdminLogin(ctx *fiber.Ctx) error
 	HandleAddProductFormSubmition(c *fiber.Ctx) error
+	GetCategoryList(ctx *fiber.Ctx) error
+	GetCreateCategoryForm(ctx *fiber.Ctx) error
 }
 
 type adminHandler struct {
 	service services.AdminService
+}
+
+func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) error {
+	view := partials.CreateCategory()
+	handler := adaptor.HTTPHandler(templ.Handler(view))
+	return handler(ctx)
 }
 
 func AdminControllerConstructor(service services.AdminService) AdminHandler {
@@ -35,17 +43,13 @@ func AdminControllerConstructor(service services.AdminService) AdminHandler {
 }
 
 func (a adminHandler) GetAdminView(ctx *fiber.Ctx) error {
-	/* token := c.Cookies("token")
-	if token == "" {
-		return c.Redirect("/admin/signin")
-	} */
-	adminView := adminviews.AdminView()
+	adminView := admin.AdminView()
 	handler := adaptor.HTTPHandler(templ.Handler(adminView))
 	return handler(ctx)
 }
 
 func (a adminHandler) GetAdminSignInView(ctx *fiber.Ctx) error {
-	signInView := adminviews.AdminSignInView()
+	signInView := admin.AdminSignInView()
 	handler := adaptor.HTTPHandler(templ.Handler(signInView))
 	return handler(ctx)
 }
@@ -115,4 +119,10 @@ func (a adminHandler) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
 		params.ProductImageFiles = append(params.ProductImageFiles, file)
 	}
 	return nil
+}
+
+func (a *adminHandler) GetCategoryList(ctx *fiber.Ctx) error {
+	view := partials.ListCategories()
+	handler := adaptor.HTTPHandler(templ.Handler(view))
+	return handler(ctx)
 }

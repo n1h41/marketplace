@@ -1,7 +1,10 @@
 package repositories
 
 import (
+	"context"
 	"database/sql"
+
+	"github.com/georgysavva/scany/v2/sqlscan"
 
 	"n1h41/marketplace/dto"
 	"n1h41/marketplace/entity"
@@ -19,21 +22,9 @@ type productRepo struct {
 
 func (p *productRepo) GetAllCategories() ([]entity.Category, error) {
 	var categoryList []entity.Category
-	var category entity.Category
 	query := "select id, name, is_sub_category, parent_id from category"
-	rows, err := p.db.Query(query)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	for rows.Next() {
-		err = rows.Scan(&category.Id, &category.Name, &category.IsSubCategory, &category.Parent)
-		if err != nil {
-			return nil, err
-		}
-		categoryList = append(categoryList, category)
-	}
-	if err = rows.Err(); err != nil {
+	ctx := context.Background()
+	if err := sqlscan.Select(ctx, p.db, &categoryList, query); err != nil {
 		return nil, err
 	}
 	return categoryList, nil
@@ -59,7 +50,6 @@ func (p *productRepo) CreateCategory(param dto.CreateNewCategory) error {
 }
 
 func (p *productRepo) CreateProduct(dto.AddProductModel) error {
-	// query := "select id from category where name = $1"
 	panic("unimplemented")
 }
 

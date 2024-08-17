@@ -21,4 +21,6 @@ func Setup(app *fiber.App) {
 	adminGroup.Get("/products", adminHandler.GetProductSection)
 	adminGroup.Get("/products/add", adminHandler.GetAddProductForm)
 	adminGroup.Post("/products/add", adminHandler.HandleAddProductFormSubmition)
+	adminGroup.Get("/categories", adminHandler.GetCategoryList)
+	adminGroup.Get("/categories/add", adminHandler.GetCreateCategoryForm)
 }
