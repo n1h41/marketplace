@@ -3,4 +3,6 @@ marketplace
 .env
 
 views/**/*_templ.txt
+views/**/*_templ.go
+public/css/*
 neovide_backtraces.log
