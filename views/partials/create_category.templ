@@ -1,7 +1,7 @@
 package partials
 
 templ CreateCategory() {
-	<div class="mt-5 md:pl-20 xl:pl-72 2xl:pl-96 md:pr-20 xl:pr-72 2xl:pr-96">
+	<div x-data="{ hasParentCategory: false }" class="mt-5 md:pl-20 xl:pl-72 2xl:pl-96 md:pr-20 xl:pr-72 2xl:pr-96">
 		<div>
 			<label for="categoryNam" class="block text-sm font-medium text-gray-900">Category Name </label>
 			<input
@@ -20,7 +20,12 @@ templ CreateCategory() {
 				>
 					<div class="flex items-center">
 						&#8203;
-						<input type="checkbox" class="size-4 rounded border-gray-300" id="Option1"/>
+						<input
+							type="checkbox"
+							class="size-4 rounded border-gray-300"
+							id="Option1"
+							x-on:click="hasParentCategory=!hasParentCategory"
+						/>
 					</div>
 					<div>
 						<strong class="font-medium text-gray-900">Sub Category</strong>
@@ -31,7 +36,10 @@ templ CreateCategory() {
 				</label>
 			</div>
 		</fieldset>
-		<div class="mt-2">
+		<div
+			class="mt-2"
+			x-show="hasParentCategory ? true : false"
+		>
 			<label for="HeadlineAct" class="block text-sm font-medium text-gray-900">Parent Category</label>
 			<select
 				name="HeadlineAct"
