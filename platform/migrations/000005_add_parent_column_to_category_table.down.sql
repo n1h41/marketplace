@@ -1,1 +1,1 @@
-ALTER TABLE categories DROP COLUMN parent;
+ALTER TABLE category DROP COLUMN parent_id;

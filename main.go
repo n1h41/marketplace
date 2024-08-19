@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/joho/godotenv"
 
+	"n1h41/marketplace/handler"
 	"n1h41/marketplace/platform/database"
 )
 
@@ -24,7 +25,7 @@ func main() {
 
 	database.ConnectToDatabase()
 
-	Setup(app)
+	handler.Setup(app)
 
 	log.Fatal(app.Listen(":3000"))
 }

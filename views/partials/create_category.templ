@@ -1,0 +1,61 @@
+package partials
+
+templ CreateCategory() {
+	<div x-data="{ hasParentCategory: false }" class="mt-5 md:pl-20 xl:pl-72 2xl:pl-96 md:pr-20 xl:pr-72 2xl:pr-96">
+		<div>
+			<label for="categoryNam" class="block text-sm font-medium text-gray-900">Category Name </label>
+			<input
+				type="text"
+				id="categoryName"
+				placeholder="Enter Category name"
+				class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+			/>
+		</div>
+		<fieldset class="mt-2">
+			<legend class="sr-only">Checkboxes</legend>
+			<div class="space-y-2">
+				<label
+					for="Option1"
+					class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50"
+				>
+					<div class="flex items-center">
+						&#8203;
+						<input
+							type="checkbox"
+							class="size-4 rounded border-gray-300"
+							id="Option1"
+							name="is_sub_category"
+							x-on:click="hasParentCategory=!hasParentCategory"
+						/>
+					</div>
+					<div>
+						<strong class="font-medium text-gray-900">Sub Category</strong>
+						<p class="mt-1 text-pretty text-sm text-gray-700">
+							Select if the newly created category is a sub category to another.
+						</p>
+					</div>
+				</label>
+			</div>
+		</fieldset>
+		<div
+			class="mt-2"
+			x-show="hasParentCategory ? true : false"
+		>
+			<label for="HeadlineAct" class="block text-sm font-medium text-gray-900">Parent Category</label>
+			<select
+				name="parent_id"
+				id="HeadlineAct"
+				class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+			>
+				<option value="">Please select one</option>
+				<option value="JM">John Mayer</option>
+				<option value="SRV">Stevie Ray Vaughn</option>
+				<option value="JH">Jimi Hendrix</option>
+				<option value="BBK">B.B King</option>
+				<option value="AK">Albert King</option>
+				<option value="BG">Buddy Guy</option>
+				<option value="EC">Eric Clapton</option>
+			</select>
+		</div>
+	</div>
+}

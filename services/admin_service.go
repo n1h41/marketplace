@@ -11,7 +11,7 @@ type AdminService interface {
 }
 
 type adminService struct {
-	repo repositories.AdminRepository
+	repo repositories.AdminRepo
 }
 
 func (s *adminService) Login(data dto.AdminLoginModel) (err error) {
@@ -24,7 +24,7 @@ func (s *adminService) CreateProduct(dto.AddProductModel) (err error) {
 	panic("unimplemented")
 }
 
-func AdminServiceConstructor(repo repositories.AdminRepository) AdminService {
+func AdminServiceConstructor(repo repositories.AdminRepo) AdminService {
 	return &adminService{
 		repo: repo,
 	}
