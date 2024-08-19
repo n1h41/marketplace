@@ -23,10 +23,11 @@ const (
 )
 
 var (
-	testDB   *sql.DB
-	pool     *dockertest.Pool
-	resource *dockertest.Resource
-	repo     AdminRepository
+	testDB          *sql.DB
+	pool            *dockertest.Pool
+	resource        *dockertest.Resource
+	adminRepoMock   AdminRepo
+	productRepoMock ProductRepo
 )
 
 func TestMain(m *testing.M) {
@@ -36,7 +37,9 @@ func TestMain(m *testing.M) {
 	// Apply database migrations
 	applyDatabaseMigrations()
 
-	repo = AdminRepoConstructor(testDB)
+	adminRepoMock = NewAdminRepo(testDB)
+	productRepoMock = NewProductRepo(testDB)
+
 	// Run the tests
 	code := m.Run()
 
@@ -48,7 +51,7 @@ func TestMain(m *testing.M) {
 }
 
 func setupDockerTestEnvironment() {
-	setupTimeoutDuration := 2 * time.Minute
+	setupTimeoutDuration := 5 * time.Minute
 	setupDone := make(chan bool)
 
 	go func() {
