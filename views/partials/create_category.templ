@@ -24,6 +24,7 @@ templ CreateCategory() {
 							type="checkbox"
 							class="size-4 rounded border-gray-300"
 							id="Option1"
+							name="is_sub_category"
 							x-on:click="hasParentCategory=!hasParentCategory"
 						/>
 					</div>
@@ -42,7 +43,7 @@ templ CreateCategory() {
 		>
 			<label for="HeadlineAct" class="block text-sm font-medium text-gray-900">Parent Category</label>
 			<select
-				name="HeadlineAct"
+				name="parent_id"
 				id="HeadlineAct"
 				class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
 			>
