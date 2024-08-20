@@ -8,7 +8,7 @@ import (
 
 func TestCreateCategory(t *testing.T) {
 	newCategory := dto.CreateNewCategory{
-		Name:          "Food and Beverages",
+		CategoryName:  "Food and Beverages",
 		IsSubCategory: false,
 	}
 	err := productRepoMock.CreateCategory(newCategory)
@@ -17,7 +17,7 @@ func TestCreateCategory(t *testing.T) {
 	}
 
 	newCategory = dto.CreateNewCategory{
-		Name:          "Pepsi",
+		CategoryName:  "Pepsi",
 		IsSubCategory: true,
 		ParentId:      1,
 	}
