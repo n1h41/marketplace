@@ -24,10 +24,19 @@ type AdminHandler interface {
 	HandleAddProductFormSubmition(c *fiber.Ctx) error
 	GetCategoryList(ctx *fiber.Ctx) error
 	GetCreateCategoryForm(ctx *fiber.Ctx) error
+	HandleCreateCategoryForm(ctx *fiber.Ctx) error
 }
 
 type adminHandler struct {
 	service services.AdminService
+}
+
+func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
+	var params dto.CreateNewCategory
+	if err := ctx.BodyParser(&params); err != nil {
+		return err
+	}
+	panic("unimplemented")
 }
 
 func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) error {
