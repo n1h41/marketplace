@@ -35,14 +35,14 @@ func (p *productRepo) CreateCategory(param dto.CreateNewCategory) error {
 	var err error
 	if param.IsSubCategory {
 		query = "insert into category(name, is_sub_category, parent_id) values($1, $2, $3)"
-		_, err = p.db.Exec(query, param.Name, param.IsSubCategory, param.ParentId)
+		_, err = p.db.Exec(query, param.CategoryName, param.IsSubCategory, param.ParentId)
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 	query = "insert into category(name, is_sub_category) values($1, $2)"
-	_, err = p.db.Exec(query, param.Name, param.IsSubCategory)
+	_, err = p.db.Exec(query, param.CategoryName, param.IsSubCategory)
 	if err != nil {
 		return err
 	}

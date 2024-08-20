@@ -1,7 +1,7 @@
 package dto
 
 type CreateNewCategory struct {
-	Name          string `db:"name"`
-	IsSubCategory bool   `db:"is_sub_category"`
+	CategoryName  string `db:"category_name"`
+	IsSubCategory bool   `db:"has_parent_category"`
 	ParentId      int    `db:"parent_id"`
 }
