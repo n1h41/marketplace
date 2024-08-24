@@ -7,3 +7,4 @@ views/**/*_templ.go
 public/css/
 neovide_backtraces.log
 views/**/*_templ.go
+config/config.yaml
