@@ -1,18 +1,19 @@
-package handler
+package route
 
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"n1h41/marketplace/platform/database"
-	"n1h41/marketplace/repositories"
-	"n1h41/marketplace/services"
+	"n1h41/marketplace/internal/delivery/http/handler"
+	"n1h41/marketplace/internal/infrastructure/database"
+	"n1h41/marketplace/internal/repository/adminrepo"
+	"n1h41/marketplace/internal/usecase/adminusc"
 )
 
-func Setup(app *fiber.App) {
+func RegisterRoutes(app *fiber.App) {
 	// INFO: ADMIN
-	adminRepo := repositories.NewAdminRepo(database.Db)
-	adminServ := services.AdminServiceConstructor(adminRepo)
-	adminHandler := AdminControllerConstructor(adminServ)
+	adminRepo := adminrepo.NewAdminRepo(database.Db)
+	adminUsc := adminusc.NewAdminUsc(adminRepo)
+	adminHandler := handler.NewAdminHandler(adminUsc)
 
 	adminGroup := app.Group("/admin")
 	adminGroup.Get("/", adminHandler.GetAdminView)

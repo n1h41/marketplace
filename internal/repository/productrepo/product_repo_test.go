@@ -1,13 +1,13 @@
-package repositories
+package productrepo
 
 import (
 	"testing"
 
-	"n1h41/marketplace/dto"
+	"n1h41/marketplace/internal/model"
 )
 
 func TestCreateCategory(t *testing.T) {
-	newCategory := dto.CreateNewCategory{
+	newCategory := model.AddCategoryReqeust{
 		CategoryName:  "Food and Beverages",
 		IsSubCategory: false,
 	}
@@ -16,7 +16,7 @@ func TestCreateCategory(t *testing.T) {
 		t.Fatalf("Error: %s", err)
 	}
 
-	newCategory = dto.CreateNewCategory{
+	newCategory = model.AddCategoryReqeust{
 		CategoryName:  "Pepsi",
 		IsSubCategory: true,
 		ParentId:      1,

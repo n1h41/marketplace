@@ -1,4 +1,4 @@
-package entity
+package coredmn
 
 type User struct {
 	Email     string `db:"email"`

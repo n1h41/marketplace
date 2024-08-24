@@ -8,9 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 
-	"n1h41/marketplace/dto"
-	"n1h41/marketplace/services"
-	"n1h41/marketplace/utils"
+	"n1h41/marketplace/internal/model"
+	"n1h41/marketplace/internal/usecase/adminusc"
+	"n1h41/marketplace/internal/utils"
 	"n1h41/marketplace/views/admin"
 	"n1h41/marketplace/views/partials"
 )
@@ -28,11 +28,17 @@ type AdminHandler interface {
 }
 
 type adminHandler struct {
-	service services.AdminService
+	usecase adminusc.AdminUsecase
+}
+
+func NewAdminHandler(usecase adminusc.AdminUsecase) AdminHandler {
+	return &adminHandler{
+		usecase: usecase,
+	}
 }
 
 func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
-	var params dto.CreateNewCategory
+	var params model.AddCategoryReqeust
 	if err := ctx.BodyParser(&params); err != nil {
 		return err
 	}
@@ -43,12 +49,6 @@ func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) error {
 	view := partials.CreateCategory()
 	handler := adaptor.HTTPHandler(templ.Handler(view))
 	return handler(ctx)
-}
-
-func AdminControllerConstructor(service services.AdminService) AdminHandler {
-	return &adminHandler{
-		service: service,
-	}
 }
 
 func (a adminHandler) GetAdminView(ctx *fiber.Ctx) error {
@@ -66,7 +66,7 @@ func (a adminHandler) GetAdminSignInView(ctx *fiber.Ctx) error {
 func (a adminHandler) HandleAdminLogin(ctx *fiber.Ctx) error {
 	var errors map[string]string
 	errors = make(map[string]string)
-	var params dto.AdminLoginModel
+	var params model.LoginAdminUserRequest
 	if err := ctx.BodyParser(&params); err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func (a adminHandler) HandleAdminLogin(ctx *fiber.Ctx) error {
 		return handler(ctx)
 	}
 
-	if err := a.service.Login(params); err != nil {
+	if err := a.usecase.Login(params); err != nil {
 		log.Println(err)
 		errors["loginError"] = err.Error()
 		signInComp := partials.SignIn(params, errors)
@@ -110,7 +110,7 @@ func (a adminHandler) GetProductSection(ctx *fiber.Ctx) error {
 }
 
 func (a adminHandler) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
-	var params dto.AddProductModel
+	var params model.AddProductRequest
 	if err := ctx.BodyParser(&params); err != nil {
 		return err
 	}
