@@ -1,4 +1,4 @@
-package productrepo
+package repository
 
 import (
 	"context"

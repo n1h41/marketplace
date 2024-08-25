@@ -1,4 +1,4 @@
-package productrepo
+package repository
 
 import (
 	"database/sql"
@@ -19,13 +19,14 @@ import (
 const (
 	dbDriver   = "postgres"
 	dbSource   = "postgres://test:test@localhost:%s/marketplace_test_db?sslmode=disable"
-	migrations = "file://../../infrastructure/database/migrations"
+	migrations = "file://../infrastructure/database/migrations"
 )
 
 var (
 	testDB          *sql.DB
 	pool            *dockertest.Pool
 	resource        *dockertest.Resource
+	adminRepoMock   AdminRepo
 	productRepoMock ProductRepo
 )
 
@@ -36,6 +37,7 @@ func TestMain(m *testing.M) {
 	// Apply database migrations
 	applyDatabaseMigrations()
 
+	adminRepoMock = NewAdminRepo(testDB)
 	productRepoMock = NewProductRepo(testDB)
 
 	// Run the tests

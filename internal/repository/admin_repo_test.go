@@ -1,4 +1,4 @@
-package adminrepo
+package repository
 
 import (
 	"testing"
