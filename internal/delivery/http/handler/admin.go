@@ -11,7 +11,7 @@ import (
 
 	"n1h41/marketplace/internal/domain/productdmn"
 	"n1h41/marketplace/internal/model"
-	"n1h41/marketplace/internal/usecase/adminusc"
+	"n1h41/marketplace/internal/usecase"
 	"n1h41/marketplace/internal/utils"
 	"n1h41/marketplace/views/admin"
 	"n1h41/marketplace/views/partials"
@@ -30,10 +30,10 @@ type AdminHandler interface {
 }
 
 type adminHandler struct {
-	usecase adminusc.AdminUsecase
+	usecase usecase.AdminUsecase
 }
 
-func NewAdminHandler(usecase adminusc.AdminUsecase) AdminHandler {
+func NewAdminHandler(usecase usecase.AdminUsecase) AdminHandler {
 	return &adminHandler{
 		usecase: usecase,
 	}

@@ -1,10 +1,9 @@
-package adminusc
+package usecase
 
 import (
 	"n1h41/marketplace/internal/domain/productdmn"
 	"n1h41/marketplace/internal/model"
-	"n1h41/marketplace/internal/repository/adminrepo"
-	"n1h41/marketplace/internal/repository/productrepo"
+	"n1h41/marketplace/internal/repository"
 )
 
 type AdminUsecase interface {
@@ -15,11 +14,11 @@ type AdminUsecase interface {
 }
 
 type adminUsecase struct {
-	adminRepo   adminrepo.AdminRepo
-	productRepo productrepo.ProductRepo
+	adminRepo   repository.AdminRepo
+	productRepo repository.ProductRepo
 }
 
-func NewAdminUsc(adminRepo adminrepo.AdminRepo, productRepo productrepo.ProductRepo) AdminUsecase {
+func NewAdminUsc(adminRepo repository.AdminRepo, productRepo repository.ProductRepo) AdminUsecase {
 	return adminUsecase{
 		adminRepo:   adminRepo,
 		productRepo: productRepo,

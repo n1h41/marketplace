@@ -5,16 +5,15 @@ import (
 
 	"n1h41/marketplace/internal/delivery/http/handler"
 	"n1h41/marketplace/internal/infrastructure/database"
-	"n1h41/marketplace/internal/repository/adminrepo"
-	"n1h41/marketplace/internal/repository/productrepo"
-	"n1h41/marketplace/internal/usecase/adminusc"
+	"n1h41/marketplace/internal/repository"
+	"n1h41/marketplace/internal/usecase"
 )
 
 func RegisterRoutes(app *fiber.App) {
 	// INFO: ADMIN
-	adminRepo := adminrepo.NewAdminRepo(database.Db)
-	productRepo := productrepo.NewProductRepo(database.Db)
-	adminUsc := adminusc.NewAdminUsc(adminRepo, productRepo)
+	adminRepo := repository.NewAdminRepo(database.Db)
+	productRepo := repository.NewProductRepo(database.Db)
+	adminUsc := usecase.NewAdminUsc(adminRepo, productRepo)
 	adminHandler := handler.NewAdminHandler(adminUsc)
 
 	adminGroup := app.Group("/admin")
