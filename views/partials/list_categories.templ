@@ -1,7 +1,12 @@
 package partials
 
-templ ListCategories() {
-	<div id="category-list">
+import "n1h41/marketplace/internal/domain/productdmn"
+
+templ ListCategories(categories []productdmn.Category) {
+	<div
+		id="category-list"
+		class="flex flex-col"
+	>
 		<div class="flex mt-5">
 			<a
 				class="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
@@ -12,9 +17,42 @@ templ ListCategories() {
 				Create
 			</a>
 		</div>
+		<div></div>
+		<div>
+			<ul>
+				for _, item := range categories {
+					if !item.IsSubCategory {
+						<li
+							class="p-2 border-gray-300 border mt-2 rounded"
+						>
+							<span class="text-blue-800 font-semibold">
+								{ item.Name }
+							</span>
+							<div
+								class="pl-5"
+							>
+								<ul>
+									for _, subItem := range categories {
+										if item.Id == subItem.Parent {
+											<li>
+												<span
+													class="text-blue-700"
+												>
+													{ subItem.Name }
+												</span>
+											</li>
+										}
+									}
+								</ul>
+							</div>
+						</li>
+					}
+				}
+			</ul>
+		</div>
 	</div>
 	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
-		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a>
+		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product</a>
 		>
 		Category
 	</span>

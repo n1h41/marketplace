@@ -8,9 +8,9 @@ type LoginAdminUserRequest struct {
 }
 
 type AddCategoryReqeust struct {
-	CategoryName  string `db:"category_name"`
-	IsSubCategory bool   `db:"has_parent_category"`
-	ParentId      int    `db:"parent_id"`
+	CategoryName  string `form:"category_name"`
+	IsSubCategory bool   `form:"has_parent_category"`
+	ParentId      string `form:"parent_id"`
 }
 
 type AddProductRequest struct {

@@ -12,7 +12,7 @@ import (
 
 type ProductRepo interface {
 	CreateProduct(model.AddProductRequest) error
-	CreateCategory(model.AddCategoryReqeust) error
+	CreateCategory(productdmn.Category) error
 	GetAllCategories() ([]productdmn.Category, error)
 }
 
@@ -30,19 +30,19 @@ func (p *productRepo) GetAllCategories() ([]productdmn.Category, error) {
 	return categoryList, nil
 }
 
-func (p *productRepo) CreateCategory(param model.AddCategoryReqeust) error {
+func (p *productRepo) CreateCategory(category productdmn.Category) error {
 	var query string
 	var err error
-	if param.IsSubCategory {
+	if category.IsSubCategory {
 		query = "insert into category(name, is_sub_category, parent_id) values($1, $2, $3)"
-		_, err = p.db.Exec(query, param.CategoryName, param.IsSubCategory, param.ParentId)
+		_, err = p.db.Exec(query, category.Name, category.IsSubCategory, category.Parent)
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 	query = "insert into category(name, is_sub_category) values($1, $2)"
-	_, err = p.db.Exec(query, param.CategoryName, param.IsSubCategory)
+	_, err = p.db.Exec(query, category.Name, category.IsSubCategory)
 	if err != nil {
 		return err
 	}

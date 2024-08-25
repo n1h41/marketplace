@@ -11,7 +11,7 @@ import "io"
 import "bytes"
 
 import (
-	"n1h41/marketplace/dto"
+	"n1h41/marketplace/internal/model"
 	"n1h41/marketplace/views"
 	"n1h41/marketplace/views/partials"
 )
@@ -35,7 +35,7 @@ func AdminSignInView() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = partials.SignIn(dto.AdminLoginModel{}, nil).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = partials.SignIn(model.LoginAdminUserRequest{}, nil).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

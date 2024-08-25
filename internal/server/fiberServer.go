@@ -10,13 +10,13 @@ import (
 	"n1h41/marketplace/internal/infrastructure/database"
 )
 
-type fiberServer struct{}
+type FiberServer struct{}
 
 func NewFiberServer() Server {
-	return &fiberServer{}
+	return &FiberServer{}
 }
 
-func (f *fiberServer) Run() {
+func (f *FiberServer) Run() {
 	app := fiber.New()
 	app.Use(favicon.New())
 	app.Static("/static/", "./public")

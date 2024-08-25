@@ -1,6 +1,11 @@
 package partials
 
-templ CreateCategory() {
+import (
+	"n1h41/marketplace/internal/domain/productdmn"
+	"strconv"
+)
+
+templ CreateCategory(categoryList []productdmn.Category) {
 	<div
 		id="create-category-section"
 		x-data="{ 
@@ -57,7 +62,7 @@ templ CreateCategory() {
 			<div
 				class="mt-2"
 				x-show="has_parent_category ? true : false"
-        x-transition
+				x-transition
 			>
 				<label for="HeadlineAct" class="block text-sm font-medium text-gray-900">Parent Category</label>
 				<select
@@ -67,13 +72,9 @@ templ CreateCategory() {
 					x-model.string="parent_id"
 				>
 					<option value="">Please select one</option>
-					<option value="JM">John Mayer</option>
-					<option value="SRV">Stevie Ray Vaughn</option>
-					<option value="JH">Jimi Hendrix</option>
-					<option value="BBK">B.B King</option>
-					<option value="AK">Albert King</option>
-					<option value="BG">Buddy Guy</option>
-					<option value="EC">Eric Clapton</option>
+					for _, item := range categoryList {
+						<option value={ strconv.Itoa(item.Id) }>{ item.Name }</option>
+					}
 				</select>
 			</div>
 			<div

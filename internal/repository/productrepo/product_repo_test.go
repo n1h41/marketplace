@@ -3,12 +3,12 @@ package productrepo
 import (
 	"testing"
 
-	"n1h41/marketplace/internal/model"
+	"n1h41/marketplace/internal/domain/productdmn"
 )
 
 func TestCreateCategory(t *testing.T) {
-	newCategory := model.AddCategoryReqeust{
-		CategoryName:  "Food and Beverages",
+	newCategory := productdmn.Category{
+		Name:          "Food and Beverages",
 		IsSubCategory: false,
 	}
 	err := productRepoMock.CreateCategory(newCategory)
@@ -16,10 +16,10 @@ func TestCreateCategory(t *testing.T) {
 		t.Fatalf("Error: %s", err)
 	}
 
-	newCategory = model.AddCategoryReqeust{
-		CategoryName:  "Pepsi",
+	newCategory = productdmn.Category{
+		Name:          "Pepsi",
 		IsSubCategory: true,
-		ParentId:      1,
+		Parent:        1,
 	}
 
 	err = productRepoMock.CreateCategory(newCategory)

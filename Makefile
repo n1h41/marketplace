@@ -7,7 +7,7 @@ test:
 	@go test -v ./...
 
 go:
-	@CompileDaemon --command=./marketplace
+	@air --build.cmd "go build -o build/webapp cmd/main.go" --build.bin "build/webapp"
 
 templ:
 	@templ generate --watch --proxy="http://localhost:3000" --open-browser=false

@@ -3,11 +3,13 @@ package handler
 import (
 	"errors"
 	"log"
+	"strconv"
 
 	"github.com/a-h/templ"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 
+	"n1h41/marketplace/internal/domain/productdmn"
 	"n1h41/marketplace/internal/model"
 	"n1h41/marketplace/internal/usecase/adminusc"
 	"n1h41/marketplace/internal/utils"
@@ -35,20 +37,6 @@ func NewAdminHandler(usecase adminusc.AdminUsecase) AdminHandler {
 	return &adminHandler{
 		usecase: usecase,
 	}
-}
-
-func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
-	var params model.AddCategoryReqeust
-	if err := ctx.BodyParser(&params); err != nil {
-		return err
-	}
-	panic("unimplemented")
-}
-
-func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) error {
-	view := partials.CreateCategory()
-	handler := adaptor.HTTPHandler(templ.Handler(view))
-	return handler(ctx)
 }
 
 func (a adminHandler) GetAdminView(ctx *fiber.Ctx) error {
@@ -124,14 +112,50 @@ func (a adminHandler) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
 	}
 
 	// INFO: This is the part where we are setting the productImageFiles to the params
+	// TODO: Need to add logic to store files into an object storage and then save the
+	//       file urls tp the database
 	for _, file := range productImageFiles {
 		params.ProductImageFiles = append(params.ProductImageFiles, file)
 	}
 	return nil
 }
 
-func (a *adminHandler) GetCategoryList(ctx *fiber.Ctx) error {
-	view := partials.ListCategories()
+func (a *adminHandler) GetCategoryList(ctx *fiber.Ctx) (err error) {
+	var categoryList []productdmn.Category
+	categoryList, err = a.usecase.ListCategories()
+	view := partials.ListCategories(categoryList)
+	handler := adaptor.HTTPHandler(templ.Handler(view))
+	return handler(ctx)
+}
+
+func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
+	var params model.AddCategoryReqeust
+	if err := ctx.BodyParser(&params); err != nil {
+		return err
+	}
+	log.Println(params)
+	newCategory := productdmn.Category{
+		Name:          params.CategoryName,
+		IsSubCategory: params.IsSubCategory,
+	}
+	if params.IsSubCategory {
+		parentId, err := strconv.ParseInt(params.ParentId, 10, 0)
+		if err != nil {
+			return err
+		}
+		newCategory.Parent = int(parentId)
+	}
+	if err := a.usecase.CreateCategory(newCategory); err != nil {
+		return err
+	}
+	ctx.WriteString("Category created")
+	return ctx.Redirect("/admin/categories")
+}
+
+func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) (err error) {
+	var categoryList []productdmn.Category
+	categoryList, err = a.usecase.ListCategories()
+	view := partials.CreateCategory(categoryList)
 	handler := adaptor.HTTPHandler(templ.Handler(view))
 	return handler(ctx)
 }

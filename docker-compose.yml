@@ -7,7 +7,7 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
-    command: CompileDaemon -command="./marketplace -b 0.0.0.0"
+    command: air --build.cmd "go build -o build/webapp cmd/main.go" --build.bin "build/webapp"
 
   db:
     env_file:
