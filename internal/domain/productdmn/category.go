@@ -1,4 +1,4 @@
-package entity
+package productdmn
 
 type Category struct {
 	Id            int    `db:"id"`

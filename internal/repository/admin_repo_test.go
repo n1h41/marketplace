@@ -1,14 +1,14 @@
-package repositories
+package repository
 
 import (
 	"testing"
 
-	"n1h41/marketplace/dto"
-	"n1h41/marketplace/entity"
+	"n1h41/marketplace/internal/domain/coredmn"
+	"n1h41/marketplace/internal/model"
 )
 
 func createUser(t *testing.T) {
-	user := entity.User{
+	user := coredmn.User{
 		FirstName: "Nihal",
 		LastName:  "Abdulla",
 		Email:     "test@gmail.com",
@@ -27,7 +27,7 @@ func createUser(t *testing.T) {
 func TestLogin(t *testing.T) {
 	createUser(t)
 
-	params := dto.AdminLoginModel{
+	params := model.LoginAdminUserRequest{
 		Email:    "test@gmail.com",
 		Password: "test1234",
 	}
