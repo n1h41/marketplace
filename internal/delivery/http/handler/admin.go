@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"log"
+	"net/http"
 	"strconv"
 
 	"github.com/a-h/templ"
@@ -148,8 +149,7 @@ func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
 	if err := a.usecase.CreateCategory(newCategory); err != nil {
 		return err
 	}
-	ctx.WriteString("Category created")
-	return ctx.Redirect("/admin/categories")
+	return ctx.SendStatus(http.StatusCreated) /* .Redirect("/admin/categories") */
 }
 
 func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) (err error) {

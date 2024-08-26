@@ -3,7 +3,7 @@ package partials
 templ AddProductForm() {
 	<form
 		id="add-product-form"
-		class="flex flex-col"
+		class="flex flex-col sample-transition"
 		hx-post="/admin/products/add"
 		action="/admin/products/add"
 		hx-encoding="multipart/form-data"
@@ -139,8 +139,8 @@ templ AddProductForm() {
 		</div>
 	</form>
 	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
-		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product</a>
+		<a href="/admin/products" hx-swap="innerHTML transition:true" hx-target="#main-section" hx-get="/admin/products">Product</a>
 		>
-		Add Product
+		Add	
 	</span>
 }

@@ -25,13 +25,13 @@ func ListCategories(categories []productdmn.Category) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"category-list\" class=\"flex flex-col sample-transition md:px-20 xl:px-72 2xl:px-96\"><div class=\"flex mt-5\"><a class=\"inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500\" hx-get=\"/admin/categories/add\" hx-target=\"#category-list\" hx-swap=\"outerHTML transition:true\">Create</a></div><div></div><div><ul>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, item := range categories {
 			if !item.IsSubCategory {
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"p-2 border-gray-300 border mt-2 rounded\"><span class=\"text-blue-800 font-semibold\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -44,13 +44,13 @@ func ListCategories(categories []productdmn.Category) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span><div class=\"pl-5\"><ul>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				for _, subItem := range categories {
 					if item.Id == subItem.Parent {
-						templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li><span class=\"text-blue-700 underline\">")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -63,19 +63,19 @@ func ListCategories(categories []productdmn.Category) templ.Component {
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
-						templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></li>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 					}
 				}
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></div></li>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></div></div><span hx-swap-oob=\"true\" id=\"path-text\" class=\"py-4 text-sm text-gray-500\"><a href=\"/admin/products\" hx-swap=\"innerHTML transition:true\" hx-target=\"#main-section\" hx-get=\"/admin/products\">Product</a> > Category</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
