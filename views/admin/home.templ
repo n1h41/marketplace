@@ -7,7 +7,7 @@ import (
 
 templ AdminView() {
 	@views.Base(false) {
-		<div class="flex">
+		<div class="flex z-50">
 			<div class="flex h-screen w-16 flex-col justify-between border-e bg-white fixed">
 				<div>
 					<div class="inline-flex size-16 items-center justify-center">
@@ -22,7 +22,7 @@ templ AdminView() {
 									x-data="{ selectedSection: 'product' }"
 									hx-get="/admin/products"
 									hx-target="#main-section"
-									hx-swap="innerHTML"
+									hx-swap="innerHTML transition:true"
 									href="/admin/products"
 									x-on:click="selectedSection = 'product'"
 									:class="selectedSection == 'product' ? 'text-blue-500 bg-gray-50' : ''"

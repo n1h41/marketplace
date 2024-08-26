@@ -3,14 +3,17 @@ package handler
 import (
 	"errors"
 	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/a-h/templ"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
 
-	"n1h41/marketplace/dto"
-	"n1h41/marketplace/services"
-	"n1h41/marketplace/utils"
+	"n1h41/marketplace/internal/domain/productdmn"
+	"n1h41/marketplace/internal/model"
+	"n1h41/marketplace/internal/usecase"
+	"n1h41/marketplace/internal/utils"
 	"n1h41/marketplace/views/admin"
 	"n1h41/marketplace/views/partials"
 )
@@ -28,26 +31,12 @@ type AdminHandler interface {
 }
 
 type adminHandler struct {
-	service services.AdminService
+	usecase usecase.AdminUsecase
 }
 
-func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
-	var params dto.CreateNewCategory
-	if err := ctx.BodyParser(&params); err != nil {
-		return err
-	}
-	panic("unimplemented")
-}
-
-func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) error {
-	view := partials.CreateCategory()
-	handler := adaptor.HTTPHandler(templ.Handler(view))
-	return handler(ctx)
-}
-
-func AdminControllerConstructor(service services.AdminService) AdminHandler {
+func NewAdminHandler(usecase usecase.AdminUsecase) AdminHandler {
 	return &adminHandler{
-		service: service,
+		usecase: usecase,
 	}
 }
 
@@ -66,7 +55,7 @@ func (a adminHandler) GetAdminSignInView(ctx *fiber.Ctx) error {
 func (a adminHandler) HandleAdminLogin(ctx *fiber.Ctx) error {
 	var errors map[string]string
 	errors = make(map[string]string)
-	var params dto.AdminLoginModel
+	var params model.LoginAdminUserRequest
 	if err := ctx.BodyParser(&params); err != nil {
 		return err
 	}
@@ -86,7 +75,7 @@ func (a adminHandler) HandleAdminLogin(ctx *fiber.Ctx) error {
 		return handler(ctx)
 	}
 
-	if err := a.service.Login(params); err != nil {
+	if err := a.usecase.Login(params); err != nil {
 		log.Println(err)
 		errors["loginError"] = err.Error()
 		signInComp := partials.SignIn(params, errors)
@@ -110,7 +99,7 @@ func (a adminHandler) GetProductSection(ctx *fiber.Ctx) error {
 }
 
 func (a adminHandler) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
-	var params dto.AddProductModel
+	var params model.AddProductRequest
 	if err := ctx.BodyParser(&params); err != nil {
 		return err
 	}
@@ -124,14 +113,49 @@ func (a adminHandler) HandleAddProductFormSubmition(ctx *fiber.Ctx) error {
 	}
 
 	// INFO: This is the part where we are setting the productImageFiles to the params
+	// TODO: Need to add logic to store files into an object storage and then save the
+	//       file urls tp the database
 	for _, file := range productImageFiles {
 		params.ProductImageFiles = append(params.ProductImageFiles, file)
 	}
 	return nil
 }
 
-func (a *adminHandler) GetCategoryList(ctx *fiber.Ctx) error {
-	view := partials.ListCategories()
+func (a *adminHandler) GetCategoryList(ctx *fiber.Ctx) (err error) {
+	var categoryList []productdmn.Category
+	categoryList, err = a.usecase.ListCategories()
+	view := partials.ListCategories(categoryList)
+	handler := adaptor.HTTPHandler(templ.Handler(view))
+	return handler(ctx)
+}
+
+func (a *adminHandler) HandleCreateCategoryForm(ctx *fiber.Ctx) error {
+	var params model.AddCategoryReqeust
+	if err := ctx.BodyParser(&params); err != nil {
+		return err
+	}
+	log.Println(params)
+	newCategory := productdmn.Category{
+		Name:          params.CategoryName,
+		IsSubCategory: params.IsSubCategory,
+	}
+	if params.IsSubCategory {
+		parentId, err := strconv.ParseInt(params.ParentId, 10, 0)
+		if err != nil {
+			return err
+		}
+		newCategory.Parent = int(parentId)
+	}
+	if err := a.usecase.CreateCategory(newCategory); err != nil {
+		return err
+	}
+	return ctx.SendStatus(http.StatusCreated) /* .Redirect("/admin/categories") */
+}
+
+func (a *adminHandler) GetCreateCategoryForm(ctx *fiber.Ctx) (err error) {
+	var categoryList []productdmn.Category
+	categoryList, err = a.usecase.ListCategories()
+	view := partials.CreateCategory(categoryList)
 	handler := adaptor.HTTPHandler(templ.Handler(view))
 	return handler(ctx)
 }

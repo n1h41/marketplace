@@ -10,7 +10,12 @@ import "context"
 import "io"
 import "bytes"
 
-func CreateCategory() templ.Component {
+import (
+	"n1h41/marketplace/internal/domain/productdmn"
+	"strconv"
+)
+
+func CreateCategory(categoryList []productdmn.Category) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +28,45 @@ func CreateCategory() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sample-transition\" id=\"create-category-section\" x-data=\"{ \n      has_parent_category: false,\n      category_name: undefined,\n      parent_id: undefined\n    }\" hx-swap=\"outerHTML transition:true\"><form id=\"create-category-form\" hx-post=\"/admin/categories/add\" hx-target=\"#create-category-section\" class=\"flex flex-col mt-5 md:px-20 xl:px-72 2xl:px-96\"><div><label for=\"categoryName\" class=\"block text-sm font-medium text-gray-900\">Category Name </label> <input type=\"text\" id=\"categoryName\" name=\"category_name\" x-model.lazy=\"category_name\" placeholder=\"Enter Category name\" class=\"mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm\"> <span x-show=\"category_name &amp;&amp; category_name.length &lt; 3\" class=\"text-red-500\">Enter a valid category name</span></div><fieldset class=\"mt-2\"><legend class=\"sr-only\">Checkboxes</legend><div class=\"space-y-2\"><label for=\"Option1\" class=\"flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50\"><div class=\"flex items-center\">&#8203; <input type=\"checkbox\" class=\"size-4 rounded border-gray-300\" id=\"Option1\" name=\"has_parent_category\" x-model.boolean=\"has_parent_category\"></div><div><strong class=\"font-medium text-gray-900\">Sub Category</strong><p class=\"mt-1 text-pretty text-sm text-gray-700\">Select if the newly created category is a sub category to another.</p></div></label></div></fieldset><div class=\"mt-2\" x-show=\"has_parent_category ? true : false\" x-transition><label for=\"HeadlineAct\" class=\"block text-sm font-medium text-gray-900\">Parent Category</label> <select name=\"parent_id\" id=\"HeadlineAct\" class=\"mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm\" x-model.string=\"parent_id\"><option value=\"\">Please select one</option> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, item := range categoryList {
+			if !item.IsSubCategory {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var2 string
+				templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(item.Id))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/partials/create_category.templ`, Line: 78, Col: 44}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var3 string
+				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(item.Name)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/partials/create_category.templ`, Line: 78, Col: 58}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select></div><div class=\"mt-2 self-end\"><button class=\"inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500\" form=\"create-category-form\">Create</button></div></form></div><span hx-swap-oob=\"true\" id=\"path-text\" class=\"py-4 text-sm text-gray-500\"><a href=\"/admin/products\" hx-swap=\"innerHTML transition:true\" hx-target=\"#main-section\" hx-get=\"/admin/products\">Product</a> > <a href=\"/admin/products\" hx-swap=\"outerHTML transition:true\" hx-target=\"#create-category-section\" hx-get=\"/admin/categories\">Category</a> > Add</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

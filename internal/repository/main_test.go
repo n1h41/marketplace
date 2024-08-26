@@ -1,4 +1,4 @@
-package repositories
+package repository
 
 import (
 	"database/sql"
@@ -19,7 +19,7 @@ import (
 const (
 	dbDriver   = "postgres"
 	dbSource   = "postgres://test:test@localhost:%s/marketplace_test_db?sslmode=disable"
-	migrations = "file://../platform/migrations"
+	migrations = "file://../infrastructure/database/migrations"
 )
 
 var (

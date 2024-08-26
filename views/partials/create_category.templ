@@ -1,20 +1,26 @@
 package partials
 
-templ CreateCategory() {
+import (
+	"n1h41/marketplace/internal/domain/productdmn"
+	"strconv"
+)
+
+templ CreateCategory(categoryList []productdmn.Category) {
 	<div
+		class="sample-transition"
 		id="create-category-section"
 		x-data="{ 
       has_parent_category: false,
       category_name: undefined,
       parent_id: undefined
     }"
-		hx-swap="outerHTML"
+		hx-swap="outerHTML transition:true"
 	>
 		<form
 			id="create-category-form"
 			hx-post="/admin/categories/add"
 			hx-target="#create-category-section"
-			class="flex flex-col mt-5 md:pl-20 xl:pl-72 2xl:pl-96 md:pr-20 xl:pr-72 2xl:pr-96"
+			class="flex flex-col mt-5 md:px-20 xl:px-72 2xl:px-96"
 		>
 			<div>
 				<label for="categoryName" class="block text-sm font-medium text-gray-900">Category Name </label>
@@ -57,7 +63,7 @@ templ CreateCategory() {
 			<div
 				class="mt-2"
 				x-show="has_parent_category ? true : false"
-        x-transition
+				x-transition
 			>
 				<label for="HeadlineAct" class="block text-sm font-medium text-gray-900">Parent Category</label>
 				<select
@@ -67,13 +73,11 @@ templ CreateCategory() {
 					x-model.string="parent_id"
 				>
 					<option value="">Please select one</option>
-					<option value="JM">John Mayer</option>
-					<option value="SRV">Stevie Ray Vaughn</option>
-					<option value="JH">Jimi Hendrix</option>
-					<option value="BBK">B.B King</option>
-					<option value="AK">Albert King</option>
-					<option value="BG">Buddy Guy</option>
-					<option value="EC">Eric Clapton</option>
+					for _, item := range categoryList {
+						if !item.IsSubCategory {
+							<option value={ strconv.Itoa(item.Id) }>{ item.Name }</option>
+						}
+					}
 				</select>
 			</div>
 			<div
@@ -89,9 +93,9 @@ templ CreateCategory() {
 		</form>
 	</div>
 	<span hx-swap-oob="true" id="path-text" class="py-4 text-sm text-gray-500">
-		<a href="/admin/products" hx-target="#main-section" hx-get="/admin/products">Product Section</a>
+		<a href="/admin/products" hx-swap="innerHTML transition:true" hx-target="#main-section" hx-get="/admin/products">Product</a>
 		>
-		<a href="/admin/products" hx-swap="outerHTML" hx-target="#create-category-section" hx-get="/admin/categories">Category</a>
+		<a href="/admin/products" hx-swap="outerHTML transition:true" hx-target="#create-category-section" hx-get="/admin/categories">Category</a>
 		>
 		Add
 	</span>
