@@ -20,7 +20,9 @@ func (f *FiberServer) Run() {
 	app := fiber.New()
 	app.Use(favicon.New())
 	app.Static("/static/", "./public")
-	database.ConnectToDatabase()
+	if err := database.ConnectToDatabase(); err != nil {
+    panic(err)
+	}
 	route.RegisterRoutes(app)
 	log.Fatal(app.Listen(":3000"))
 }

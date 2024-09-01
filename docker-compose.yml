@@ -1,5 +1,12 @@
 services:
   web:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
     build: .
     env_file:
       - .env
@@ -7,7 +14,7 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
-    command: air --build.cmd "go build -o build/webapp cmd/main.go" --build.bin "build/webapp"
+    command: air --build.cmd "go build -o build/backend cmd/main.go" --build.bin "build/backend"
 
   db:
     env_file:

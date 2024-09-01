@@ -10,11 +10,10 @@ import (
 )
 
 var (
-	Db  *sql.DB
-	Err error
+	Db *sql.DB
 )
 
-func ConnectToDatabase() {
+func ConnectToDatabase() (err error) {
 	connectionStr := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
@@ -22,9 +21,17 @@ func ConnectToDatabase() {
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_SSLMODE"),
 	)
-	Db, Err = sql.Open("postgres", connectionStr)
-	if Err != nil {
-		log.Fatalln(Err)
+	Db, err = sql.Open("postgres", connectionStr)
+	if err != nil {
+		log.Panic(err)
+		return
 	}
+
+	if err = Db.Ping(); err != nil {
+		log.Panic(err)
+		return
+	}
+
 	fmt.Println("Connected to database 🔥")
+	return nil
 }

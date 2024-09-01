@@ -6,6 +6,7 @@ require (
 	github.com/a-h/templ v0.2.747
 	github.com/georgysavva/scany/v2 v2.1.3
 	github.com/gofiber/fiber/v2 v2.52.4
+	github.com/spf13/viper v1.19.0
 )
 
 require (
@@ -42,7 +43,6 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.19.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
