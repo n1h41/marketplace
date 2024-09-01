@@ -8,6 +8,8 @@ services:
 
   backend:
     build: .
+    depends_on:
+      - migrate
     env_file:
       - .env
     ports:
@@ -29,5 +31,20 @@ services:
     volumes:
       - postgres-db:/var/lib/postgresql/data
 
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      - db
+    volumes:
+      - ./internal/infrastructure/database/migrations:/migration
+    command:
+      [
+        "-path",
+        "./migration",
+        "-database",
+        "postgres://n1h41:nihal%4023ktu@db:5432/marketplace?sslmode=disable",
+        "-verbose",
+        "up",
+      ]
 volumes:
   postgres-db:
