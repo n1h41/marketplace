@@ -1,7 +1,7 @@
 build:
-	npx tailwindcss -i views/css/styles.css -o public/css/styles.css
+	@npx tailwindcss -i views/css/styles.css -o public/css/styles.css
 	@templ generate view
-	@go build -o bin/marketplace main.go
+	@go build -o bin/webapp main.go
 
 test:
 	@go test -v ./...
