@@ -3,7 +3,6 @@ marketplace
 .env
 
 views/**/*_templ.txt
-public/css/
 config/config.yaml
 build
 tmp
