@@ -10,10 +10,6 @@ services:
     build: .
     depends_on:
       - migrate
-    env_file:
-      - .env
-    ports:
-      - "3000:3000"
     volumes:
       - .:/usr/src/app
     command: air --build.cmd "go build -o build/backend cmd/main.go" --build.bin "build/backend"
@@ -26,8 +22,6 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - 5432:5432
     volumes:
       - postgres-db:/var/lib/postgresql/data
 
@@ -42,7 +36,7 @@ services:
         "-path",
         "./migration",
         "-database",
-        "postgres://n1h41:nihal%4023ktu@db:5432/marketplace?sslmode=disable",
+        "postgres://n1h41:n2ks9x64@db:5432/marketplace?sslmode=disable",
         "-verbose",
         "up",
       ]
