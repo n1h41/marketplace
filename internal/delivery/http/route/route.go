@@ -10,20 +10,15 @@ import (
 )
 
 func RegisterRoutes(app *fiber.App) {
-	// INFO: ADMIN
 	adminRepo := repository.NewAdminRepo(database.Db)
 	productRepo := repository.NewProductRepo(database.Db)
 	adminUsc := usecase.NewAdminUsc(adminRepo, productRepo)
 	adminHandler := handler.NewAdminHandler(adminUsc)
 
-	adminGroup := app.Group("/admin")
-	adminGroup.Get("/", adminHandler.GetAdminView)
-	adminGroup.Get("/signin", adminHandler.GetAdminSignInView)
-	adminGroup.Post("/signin", adminHandler.HandleAdminLogin)
-	adminGroup.Get("/products", adminHandler.GetProductSection)
-	adminGroup.Get("/products/add", adminHandler.GetAddProductForm)
-	adminGroup.Post("/products/add", adminHandler.HandleAddProductFormSubmition)
-	adminGroup.Get("/categories", adminHandler.GetCategoryList)
-	adminGroup.Get("/categories/add", adminHandler.GetCreateCategoryForm)
-	adminGroup.Post("/categories/add", adminHandler.HandleCreateCategoryForm)
+	app.Group("/admin").Get("/", adminHandler.GetAdminView).
+		Get("/signin", adminHandler.GetAdminSignInView).Post("/signin", adminHandler.HandleAdminLogin).
+		Get("/products", adminHandler.GetProductSection).Get("/products/add", adminHandler.GetAddProductForm).
+		Post("/products/add", adminHandler.HandleAddProductFormSubmition).Get("/categories", adminHandler.GetCategoryList).
+		Get("/categories/add", adminHandler.GetCreateCategoryForm).Post("/categories/add", adminHandler.HandleCreateCategoryForm)
 }
+

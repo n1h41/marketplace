@@ -4,16 +4,15 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
-
 	"n1h41/marketplace/internal/server"
 )
 
 func main() {
-	// INFO: Load env file
 	if err := godotenv.Load(".env"); err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to load .env file: %v", err)
 	}
 
 	fiberServer := server.NewFiberServer()
 	fiberServer.Run()
 }
+

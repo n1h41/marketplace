@@ -9,9 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var (
-	Db *sql.DB
-)
+var Db *sql.DB
 
 func ConnectToDatabase() (err error) {
 	connectionStr := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s",
@@ -21,8 +19,7 @@ func ConnectToDatabase() (err error) {
 		os.Getenv("DB_NAME"),
 		os.Getenv("DB_SSLMODE"),
 	)
-	Db, err = sql.Open("postgres", connectionStr)
-	if err != nil {
+	if Db, err = sql.Open("postgres", connectionStr); err != nil {
 		log.Panic(err)
 		return
 	}
@@ -35,3 +32,4 @@ func ConnectToDatabase() (err error) {
 	fmt.Println("Connected to database 🔥")
 	return nil
 }
+
